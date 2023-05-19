@@ -37,7 +37,7 @@ class AllCorrectPage extends StatelessWidget {
             onPressed: () {
               closeAppUsingSystemPop();
             },
-            child: Text("Exit"),
+            child: const Text("Exit"),
             //     shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
           ),
         ],

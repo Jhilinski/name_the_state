@@ -84,9 +84,26 @@ class _PageOneState extends State<PageOne> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        bottomNavigationBar: BottomAppBar(
+        bottomNavigationBar: const BottomAppBar(
           color: Colors.yellow,
-          child: Container(height: 50.0),
+          child: SizedBox(
+              height: 50.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Expanded(
+                    child: Text('Number Correct', textAlign: TextAlign.center),
+                  ),
+                  Expanded(
+                    child:
+                        Text('Number Incorrect', textAlign: TextAlign.center),
+                  ),
+                  Expanded(
+                    child:
+                        Text('Capitals Correct', textAlign: TextAlign.center),
+                  ),
+                ],
+              )),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         appBar: AppBar(
@@ -97,7 +114,7 @@ class _PageOneState extends State<PageOne> {
               onPressed: () {
                 closeAppUsingSystemPop();
               },
-              child: Text("Exit"),
+              child: const Text("Exit"),
               //     shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
             ),
           ],

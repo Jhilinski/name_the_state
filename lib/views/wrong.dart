@@ -33,7 +33,7 @@ class WrongPage extends StatelessWidget {
             onPressed: () {
               closeAppUsingSystemPop();
             },
-            child: Text("Exit"),
+            child: const Text("Exit"),
             //     shape: CircleBorder(side: BorderSide(color: Colors.transparent)),
           ),
         ],
@@ -56,7 +56,7 @@ class WrongPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: Text('<<<<Back'),
+                      child: const Text('<<<<Back'),
                     ),
                   ],
                 ),
