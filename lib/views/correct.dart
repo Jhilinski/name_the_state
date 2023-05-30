@@ -1,14 +1,15 @@
-import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'state_capitals.dart';
-import 'package:flutter/services.dart';
-
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'state_capitals.dart';
 
 // ignore: must_be_immutable
 class CorrectPage extends StatelessWidget {
   final _myBox = Hive.box('myBox');
   String playerName = '';
+
   final player = AudioPlayer();
 
   CorrectPage({Key? key}) : super(key: key);
@@ -32,6 +33,8 @@ class CorrectPage extends StatelessWidget {
     stateCapsKeys.shuffle();
 
     playerName = (_myBox.get(1));
+    int numCorrect = (_myBox.get(3));
+    print('Number of correct answers $numCorrect');
     String? stateCap;
     stateCap = getCapital(args[0]);
     String? button1Text = getCapital(stateCapsKeys[0]);
@@ -61,7 +64,7 @@ class CorrectPage extends StatelessWidget {
           children: [
             Image.asset('assets/images/states_name/$correctState.png'),
             Text(
-              'You GotThe Right State $playerName!!\n$correctState\nWhat is the Capital City?',
+              'You Got The Right State $playerName!!\n$correctState\nWhat is the Capital City?',
               style: const TextStyle(fontSize: 25),
               textAlign: TextAlign.center,
             ),

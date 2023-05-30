@@ -1,18 +1,27 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider/path_provider.dart';
+
 import '/views/page_one.dart';
-import 'views/correct.dart';
 import 'views/all_correct.dart';
-import 'views/wrong.dart';
+import 'views/correct.dart';
 import 'views/start.dart';
+import 'views/wrong.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   //initialize Hive
-  await Hive.initFlutter();
+  Directory directory = await getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
   String playerName = 'Player';
+  int numCorrect = 99;
   // open the box
   var box = await Hive.openBox('myBox');
   box.put(1, playerName);
+  box.put(3, numCorrect);
   runApp(const MyApp());
 }
 

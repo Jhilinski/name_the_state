@@ -92,15 +92,20 @@ class _PageOneState extends State<PageOne> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    child: Text('Number Correct', textAlign: TextAlign.center),
+                    child:
+                        Text('States\nCorrect\n0', textAlign: TextAlign.center),
                   ),
                   Expanded(
-                    child:
-                        Text('Number Incorrect', textAlign: TextAlign.center),
+                    child: Text('States\nIncorrect\n1',
+                        textAlign: TextAlign.center),
                   ),
                   Expanded(
-                    child:
-                        Text('Capitals Correct', textAlign: TextAlign.center),
+                    child: Text('Capitals\nCorrect\n2',
+                        textAlign: TextAlign.center),
+                  ),
+                  Expanded(
+                    child: Text('Capitals\nIncorrect\n3',
+                        textAlign: TextAlign.center),
                   ),
                 ],
               )),
