@@ -7,7 +7,7 @@ import 'state_capitals.dart';
 
 // ignore: must_be_immutable
 class CorrectPage extends StatefulWidget {
-  CorrectPage({Key? key}) : super(key: key);
+  const CorrectPage({Key? key}) : super(key: key);
 
   @override
   State<CorrectPage> createState() => _CorrectPageState();

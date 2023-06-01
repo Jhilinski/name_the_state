@@ -1,15 +1,23 @@
-import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 // ignore: must_be_immutable
-class AllCorrectPage extends StatelessWidget {
+class AllCorrectPage extends StatefulWidget {
+  AllCorrectPage({Key? key}) : super(key: key);
+
+  @override
+  State<AllCorrectPage> createState() => _AllCorrectPageState();
+}
+
+class _AllCorrectPageState extends State<AllCorrectPage> {
   final _myBox = Hive.box('myBox');
+
   String playerName = '';
+
   final player = AudioPlayer();
 
-  AllCorrectPage({Key? key}) : super(key: key);
   void closeAppUsingSystemPop() {
     SystemChannels.platform.invokeMethod('SystemNavigator.pop');
   }
@@ -26,6 +34,14 @@ class AllCorrectPage extends StatelessWidget {
       player.play(AssetSource('success-fanfare-trumpets.mp3'));
     }
     playerName = (_myBox.get(1));
+    int numCorrect = (_myBox.get(3));
+    int numIncorrect = (_myBox.get(4));
+
+    setState(() {
+      numCorrect++;
+    });
+    _myBox.put(3, numCorrect);
+    print('Number of correct answers $numCorrect');
 
     return Scaffold(
       appBar: AppBar(
@@ -58,6 +74,25 @@ class AllCorrectPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pushNamed('/page_one');
               },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  'Correct = $numCorrect',
+                  style: const TextStyle(
+                    color: Colors.blue,
+                    fontSize: 20,
+                  ),
+                ),
+                Text(
+                  'Incorrect = $numIncorrect',
+                  style: const TextStyle(
+                    color: Colors.blue,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

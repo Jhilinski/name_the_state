@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const StartPage(),
         '/page_one': (context) => const PageOne(),
-        '/correct': (context) => CorrectPage(),
+        '/correct': (context) => const CorrectPage(),
         '/all_correct': (context) => AllCorrectPage(),
         '/wrong': (context) => const WrongPage(),
       },
