@@ -6,13 +6,21 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'state_capitals.dart';
 
 // ignore: must_be_immutable
-class CorrectPage extends StatelessWidget {
+class CorrectPage extends StatefulWidget {
+  CorrectPage({Key? key}) : super(key: key);
+
+  @override
+  State<CorrectPage> createState() => _CorrectPageState();
+}
+
+class _CorrectPageState extends State<CorrectPage> {
   final _myBox = Hive.box('myBox');
+
+  //int numCorrect = 0;
   String playerName = '';
 
   final player = AudioPlayer();
 
-  CorrectPage({Key? key}) : super(key: key);
   void closeAppUsingSystemPop() {
     SystemChannels.platform.invokeMethod('SystemNavigator.pop');
   }
@@ -34,6 +42,12 @@ class CorrectPage extends StatelessWidget {
 
     playerName = (_myBox.get(1));
     int numCorrect = (_myBox.get(3));
+    int numIncorrect = (_myBox.get(4));
+
+    setState(() {
+      numCorrect++;
+    });
+    _myBox.put(3, numCorrect);
     print('Number of correct answers $numCorrect');
     String? stateCap;
     stateCap = getCapital(args[0]);
@@ -64,7 +78,7 @@ class CorrectPage extends StatelessWidget {
           children: [
             Image.asset('assets/images/states_name/$correctState.png'),
             Text(
-              'You Got The Right State $playerName!!\n$correctState\nWhat is the Capital City?',
+              'You GotThe Right State $playerName!!\n$correctState\nWhat is the Capital City?',
               style: const TextStyle(fontSize: 25),
               textAlign: TextAlign.center,
             ),
@@ -118,6 +132,25 @@ class CorrectPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pushNamed('/page_one');
               },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  'Correct = $numCorrect',
+                  style: const TextStyle(
+                    color: Colors.blue,
+                    fontSize: 20,
+                  ),
+                ),
+                Text(
+                  'Incorrect = $numIncorrect',
+                  style: const TextStyle(
+                    color: Colors.blue,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

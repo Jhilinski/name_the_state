@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '/views/page_one.dart';
 import 'views/all_correct.dart';
@@ -14,14 +11,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   //initialize Hive
-  Directory directory = await getApplicationDocumentsDirectory();
-  Hive.init(directory.path);
+  await Hive.initFlutter();
   String playerName = 'Player';
-  int numCorrect = 99;
+  int correctAnswer = 0;
+  int incorrectAnswer = 0;
   // open the box
   var box = await Hive.openBox('myBox');
   box.put(1, playerName);
-  box.put(3, numCorrect);
+  box.put(3, correctAnswer);
+  box.put(4, incorrectAnswer);
   runApp(const MyApp());
 }
 
@@ -37,7 +35,7 @@ class MyApp extends StatelessWidget {
         '/page_one': (context) => const PageOne(),
         '/correct': (context) => CorrectPage(),
         '/all_correct': (context) => AllCorrectPage(),
-        '/wrong': (context) => WrongPage(),
+        '/wrong': (context) => const WrongPage(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(

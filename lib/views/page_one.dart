@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 //import 'dart:math';
 import 'package:flutter/services.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class PageOne extends StatefulWidget {
   const PageOne({Key? key}) : super(key: key);
@@ -10,6 +11,11 @@ class PageOne extends StatefulWidget {
 }
 
 class _PageOneState extends State<PageOne> {
+//reference our box
+  final _myBox = Hive.box('myBox');
+  int correctAnswer = 0;
+  int incorrectAnswer = 0;
+
   void closeAppUsingSystemPop() {
     SystemChannels.platform.invokeMethod('SystemNavigator.pop');
   }
@@ -74,41 +80,20 @@ class _PageOneState extends State<PageOne> {
     var answer = stateName;
     String button2 = ourStates[1];
     String button3 = ourStates[2];
-
+    correctAnswer = (_myBox.get(3));
+    incorrectAnswer = (_myBox.get(4));
     List newButtons = [answer, button2, button3];
     //newButtons.shuffle();
     List newButtonsSC = newButtons.toList();
     //check for shuffle position
     newButtons.shuffle();
-
+    print('Correct Answer = $correctAnswer');
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        bottomNavigationBar: const BottomAppBar(
+        bottomNavigationBar: BottomAppBar(
           color: Colors.yellow,
-          child: SizedBox(
-              height: 50.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child:
-                        Text('States\nCorrect\n0', textAlign: TextAlign.center),
-                  ),
-                  Expanded(
-                    child: Text('States\nIncorrect\n1',
-                        textAlign: TextAlign.center),
-                  ),
-                  Expanded(
-                    child: Text('Capitals\nCorrect\n2',
-                        textAlign: TextAlign.center),
-                  ),
-                  Expanded(
-                    child: Text('Capitals\nIncorrect\n3',
-                        textAlign: TextAlign.center),
-                  ),
-                ],
-              )),
+          child: Container(height: 50.0),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         appBar: AppBar(
@@ -135,7 +120,7 @@ class _PageOneState extends State<PageOne> {
                   style: TextStyle(fontSize: 20.0),
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (answer == newButtons[0]) {
                       Navigator.of(context)
                           .pushNamed('/correct', arguments: newButtonsSC);
@@ -149,7 +134,7 @@ class _PageOneState extends State<PageOne> {
                   child: Text(newButtons[0]),
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (answer == newButtons[1]) {
                       Navigator.of(context)
                           .pushNamed('/correct', arguments: newButtonsSC);
@@ -162,7 +147,7 @@ class _PageOneState extends State<PageOne> {
                   child: Text(newButtons[1]),
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (answer == newButtons[2]) {
                       Navigator.of(context)
                           .pushNamed('/correct', arguments: newButtonsSC);
@@ -173,6 +158,25 @@ class _PageOneState extends State<PageOne> {
                     }
                   },
                   child: Text(newButtons[2]),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      'Correct = $correctAnswer',
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        fontSize: 20,
+                      ),
+                    ),
+                    Text(
+                      'Incorrect = $incorrectAnswer',
+                      style: const TextStyle(
+                        color: Colors.blue,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ],
                 ),
               ]),
         ),

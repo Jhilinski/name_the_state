@@ -1,15 +1,23 @@
-import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 // ignore: must_be_immutable
-class WrongPage extends StatelessWidget {
+class WrongPage extends StatefulWidget {
+  const WrongPage({Key? key}) : super(key: key);
+
+  @override
+  State<WrongPage> createState() => _WrongPageState();
+}
+
+class _WrongPageState extends State<WrongPage> {
   final _myBox = Hive.box('myBox');
+  int _incorrectAnswer = 0;
   String playerName = 'Player Name';
+
   final player = AudioPlayer();
 
-  WrongPage({Key? key}) : super(key: key);
   void closeAppUsingSystemPop() {
     SystemChannels.platform.invokeMethod('SystemNavigator.pop');
   }
@@ -18,7 +26,16 @@ class WrongPage extends StatelessWidget {
   Widget build(BuildContext context) {
     playerName = (_myBox.get(1));
     bool? isAudio = (_myBox.get(2));
-    print('isAudio $isAudio');
+
+    _incorrectAnswer = (_myBox.get(4));
+    setState(() {
+      _incorrectAnswer++;
+    });
+    _myBox.put(4, _incorrectAnswer);
+    print('Incorrect Answer $_incorrectAnswer');
+
+    print;
+    ('isAudio $isAudio');
     if (isAudio != false) {
       player.play(AssetSource('wrong-buzzer.mp3'));
     }
@@ -54,7 +71,7 @@ class WrongPage extends StatelessWidget {
                   children: <Widget>[
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        Navigator.pop(context, _incorrectAnswer);
                       },
                       child: const Text('<<<<Back'),
                     ),
